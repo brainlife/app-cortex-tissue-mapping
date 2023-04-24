@@ -31,12 +31,14 @@ volume_smooth_kernel=`jq -r '.volume_smooth_kernel' config.json`
 surface_smooth_kernel=`jq -r '.surface_smooth_kernel' config.json`
 surface_fwhm=`jq -r '.surface_fwhm' config.json`
 smooth_method=`jq -r '.surface_smooth_method' config.json`
+projfrac_min=`jq -r '.projfrac_min' config.json`
 echo "parsing inputs complete"
 
 # parsing smoothing-related inputs
 vsk=""
 fb=""
 sfwhm=""
+projmin=""
 if [ ! -z ${volume_smooth_kernel} ]; then
 	vsk="--fwhm ${volume_smooth_kernel}"
 fi
@@ -45,6 +47,11 @@ if [[ ${fix_zeros} == true ]]; then
 fi
 if [[ ${surface_fwhm} == true ]]; then
 	sfwhm="-fwhm"
+fi
+if [[ ! -z ${projfrac_min} ]]; then
+	projmin=${projfrac_min}
+else
+	promin=0
 fi
 
 # set hemisphere labels
@@ -372,7 +379,7 @@ do
 			mri_vol2surf --mov ${vol_data} \
 				--hemi ${hemi} \
 				--surf white \
-				--projfrac-max 0 1 0.1 \
+				--projfrac-max ${projmin} 1 0.1 \
 				--regheader $freesurfer \
 				--o ${funcdir}/${hemi}.${vol_name}.func.gii ${vsk}
 			
