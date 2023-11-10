@@ -63,8 +63,8 @@ do
             ${atlases}/resample_fsaverage/fs_LR-deformed_to-fsaverage.${wb_hemi}.sphere.${resamp_surf}_fs_LR.surf.gii \
             ADAP_BARY_AREA \
             ./cortexmap/cortexmap/surf/${i} \
-            -area-surfs ./tmp/surf/${hemi}.midthickness.native.surf.gii \
-            ./cortexmap/cortexmap/surf/${hemi}.midthickness.native.surf.gii
+            -area-surfs ./tmp/surf/${hemi}.midthickness.fsaverage.surf.gii \
+            ./cortexmap/cortexmap/surf/${hemi}.midthickness.fsaverage.surf.gii
     fi
 done
 
@@ -120,8 +120,8 @@ do
         ${atlases}/resample_fsaverage/fs_LR-deformed_to-fsaverage.${wb_hemi}.sphere.${resamp_surf}_fs_LR.surf.gii \
         ADAP_BARY_AREA \
         ./cortexmap/cortexmap/func/${i} \
-        -area-surfs ./tmp/surf/${hemi}.midthickness.native.surf.gii \
-        ./cortexmap/cortexmap/surf/${hemi}.midthickness.native.surf.gii
+        -area-surfs ./tmp/surf/${hemi}.midthickness.fsaverage.surf.gii \
+        ./cortexmap/cortexmap/surf/${hemi}.midthickness.fsaverage.surf.gii
 
 done
 
@@ -146,8 +146,8 @@ do
         ${atlases}/resample_fsaverage/fs_LR-deformed_to-fsaverage.${wb_hemi}.sphere.${resamp_surf}_fs_LR.surf.gii \
         ADAP_BARY_AREA \
         ./cortexmap/cortexmap/label/${i} \
-        -area-surfs ./tmp/surf/${hemi}.midthickness.native.surf.gii \
-        ./cortexmap/cortexmap/surf/${hemi}.midthickness.native.surf.gii
+        -area-surfs ./tmp/surf/${hemi}.midthickness.fsaverage.surf.gii \
+        ./cortexmap/cortexmap/surf/${hemi}.midthickness.fsaverage.surf.gii
 done
 
 # add resample vertices as datatype tag
