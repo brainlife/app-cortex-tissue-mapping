@@ -2,7 +2,7 @@
 
 # set configurable inputs
 cortexmap=`jq -r '.cortexmap' config.json`
-freesurfer=`jq -r '.freesurfer' config.json`
+fsaverage=`jq -r '.fsaverage' config.json`
 resamp_surf=`jq -r '.resample_surf' config.json`
 
 # set hemispheres
@@ -12,7 +12,7 @@ hemispheres="lh rh"
 atlases='./standard_mesh_atlases'
 
 # copy freesurfer directory
-[ ! -d ./freesurfer ] && cp -R ${freesurfer} ./freesurfer
+[ ! -d ./freesurfer ] && cp -R ./fsaverage-dirs/${fsaverage} ./freesurfer
 
 # make output directory
 [ ! -d ./cortexmap ] && mkdir -p cortexmap cortexmap/cortexmap cortexmap/cortexmap/surf cortexmap/cortexmap/func cortexmap/cortexmap/label
