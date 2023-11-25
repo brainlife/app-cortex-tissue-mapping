@@ -51,7 +51,7 @@ fi
 if [[ ! -z ${projfrac_min} ]]; then
 	projmin=${projfrac_min}
 else
-	promin=0
+	projmin=0
 fi
 
 # set hemisphere labels
