@@ -11,6 +11,7 @@ num_inputs=`echo ${#inputs[@]}`
 # set hemispheres
 hemispheres="lh rh"
 
+# need to update this to grab all files and remove duplicates in cases where first input doesn't have all the func files from the other inputs
 func_files=`ls ${inputs[0]}/func/`
 surf_files=`ls ${inputs[0]}/surf/`
 label_files=`ls ${inputs[0]}/label/`
@@ -88,10 +89,15 @@ do
     echo "generating average for ${func}"
     
     # sum first two files
-    wb_command -metric-math '(x+y)' ./cortexmap/cortexmap/func/${func} -var 'x' ${inputs[0]}/func/${func} -var 'y' ${inputs[1]}/func/${func}
-
-    # if more than two, sum remaining
     number_of_func_subjects=1
+    if [ -f ${inputs[1]}/func/${func} ]; then
+        wb_command -metric-math '(x+y)' ./cortexmap/cortexmap/func/${func} -var 'x' ${inputs[0]}/func/${func} -var 'y' ${inputs[1]}/func/${func}
+        number_of_func_subjects=$((number_of_func_subjects+1))
+    else
+        cp ${inputs[0]}/func/${func} ./cortexmap/cortexmap/func/${func}
+    fi
+    
+    # if more than two, sum remaining
     if [ ${num_inputs} -gt 2 ]; then
         for (( i=2; i<${num_inputs}; i++ ))
         do 
