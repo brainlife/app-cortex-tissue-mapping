@@ -91,15 +91,19 @@ do
     wb_command -metric-math '(x+y)' ./cortexmap/cortexmap/func/${func} -var 'x' ${inputs[0]}/func/${func} -var 'y' ${inputs[1]}/func/${func}
 
     # if more than two, sum remaining
+    number_of_func_subjects=1
     if [ ${num_inputs} -gt 2 ]; then
         for (( i=2; i<${num_inputs}; i++ ))
         do 
-            wb_command -metric-math '(x+y)' ./cortexmap/cortexmap/func/${func} -var 'x' ./cortexmap/cortexmap/func/${func} -var 'y' ${inputs[$i]}/func/${func}
+            if [ -f ${inputs[$i]}/func/${func} ]; then
+                wb_command -metric-math '(x+y)' ./cortexmap/cortexmap/func/${func} -var 'x' ./cortexmap/cortexmap/func/${func} -var 'y' ${inputs[$i]}/func/${func}
+                number_of_func_subjects=$((number_of_func_subjects+1))
+            fi
         done
     fi
 
     # compute average
-    tmp_command="wb_command -metric-math '(x/${num_inputs})' ./cortexmap/cortexmap/func/${func} -var 'x' ./cortexmap/cortexmap/func/${func}"
+    tmp_command="wb_command -metric-math '(x/${number_of_func_subjects})' ./cortexmap/cortexmap/func/${func} -var 'x' ./cortexmap/cortexmap/func/${func}"
     eval `echo $tmp_command`
 
     #wb_command -metric-math 'x/${num_inputs}' ./cortexmap/cortexmap/func/${func} -var 'x' ./cortexmap/cortexmap/func/${func}
