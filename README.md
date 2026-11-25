@@ -14,9 +14,9 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey.svg" alt="MIT license"></a>
 </p>
 
-> 📍 **This branch, `endpoints-fsaverage-smoothing-v1.1`, is the brainlife.io App Map tract endpoint ROIs to cortical surface for quantitative analyses - fsaverage** ([doi:10.25663/brainlife.app.767](https://doi.org/10.25663/brainlife.app.767)). The other Apps in this repository are listed under **Versions on brainlife.io** below.
+> **This branch, `endpoints-fsaverage-smoothing-v1.1`, is the brainlife.io App Map tract endpoint ROIs to cortical surface for quantitative analyses - fsaverage** ([doi:10.25663/brainlife.app.767](https://doi.org/10.25663/brainlife.app.767)). The other Apps in this repository are listed under **Versions on brainlife.io** below.
 
-## 🧠 At a glance
+## At a glance
 
 <!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
 
@@ -26,21 +26,21 @@ Uses a bundled fsaverage subject (chosen with the freesurfer parameter) instead 
 
 | | |
 |---|---|
-| 📥 **Inputs** | `neuro/rois` · `neuro/cortexmap` (optional) |
-| 📤 **Outputs** | `neuro/cortexmap` · `raw` |
-| 🐳 **Container** | `brainlife/connectome_workbench:1.5.0` |
-| ⚙️ **Resources** | 8 CPUs · 20 GB memory · 10.5 h walltime |
-| 🔑 **Requires** | `FREESURFER_LICENSE` |
-| 🔗 **Run it** | [doi.org/10.25663/brainlife.app.767](https://doi.org/10.25663/brainlife.app.767) |
+| **Inputs** | `neuro/rois` · `neuro/cortexmap` (optional) |
+| **Outputs** | `neuro/cortexmap` · `raw` |
+| **Container** | `brainlife/connectome_workbench:1.5.0` |
+| **Resources** | 8 CPUs · 20 GB memory · 10.5 h walltime |
+| **Requires** | `FREESURFER_LICENSE` |
+| **Run it** | [doi.org/10.25663/brainlife.app.767](https://doi.org/10.25663/brainlife.app.767) |
 
-#### 📥 Inputs
+#### Inputs
 
 | Input | Datatype | Required | Description |
 |---|---|---|---|
 | `rois` | `neuro/rois` (warped) | yes | Volumetric ROIs (e.g. tract endpoint ROIs) already warped to template space, as NIfTI files; each ROI is mapped onto the fsaverage surface. ROIs must be in the template space of the chosen fsaverage subject. |
 | `cortexmap` | `neuro/cortexmap` | no | Optional existing fsaverage cortexmap; if it contains fsaverage midthickness surfaces, the ROIs are added to it. |
 
-#### 📤 Outputs
+#### Outputs
 
 | Output | Datatype | Description |
 |---|---|---|
@@ -48,7 +48,7 @@ Uses a bundled fsaverage subject (chosen with the freesurfer parameter) instead 
 | `raw` | `raw` | A directory containing all of the derivatives generated. Useful for QA and debugging |
 
 <details>
-<summary><b>⚙️ Parameters</b> (8)</summary>
+<summary><b>Parameters</b> (8)</summary>
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -65,13 +65,13 @@ Uses a bundled fsaverage subject (chosen with the freesurfer parameter) instead 
 
 <!-- brainlife-app:end -->
 
-## 🔬 How it works
+## How it works
 
 The mapping Apps follow Fukutomi et al. (2018) and the Human Connectome Project minimal preprocessing pipelines (Glasser et al. 2013), using Connectome Workbench. From a FreeSurfer run they build white, pial, midthickness (the surface halfway between white and pial) and inflated GIFTI surfaces, then sample each volumetric measure within the cortical ribbon onto the midthickness surface, with a Gaussian kernel scaled to the DWI voxel size. Surfaces are written in native space and, when a nonlinear warp to a template is provided, also in template (MNI) space. The chosen FreeSurfer surface parcellation (default `aparc.a2009s`) is converted to GIFTI labels. Most variants also compute the b0 temporal SNR from the DWI and mask out cortical vertices with low SNR.
 
 The code was adapted from the HCP [PostFreeSurfer pipeline](https://github.com/Washington-University/HCPpipelines/blob/master/PostFreeSurfer/scripts/FreeSurfer2CaretConvertAndRegisterNonlinear.sh) and the RIKEN Brain Connectomics Imaging Laboratory's [NoddiSurfaceMapping](https://github.com/RIKEN-BCIL/NoddiSurfaceMapping) repository for use on brainlife.io. Every App reads and writes the `neuro/cortexmap` datatype, so they can be chained: create or map measures per subject, resample to a standard mesh, smooth, then average or sum across subjects.
 
-## 🏷️ Versions on brainlife.io
+## Versions on brainlife.io
 
 Each row is a separate App on brainlife.io, built from its own branch of this repository.
 
@@ -114,9 +114,9 @@ Each row is a separate App on brainlife.io, built from its own branch of this re
 | Compute summed cortexmap data for group analysis | 1.4.2b | [`sum-template-generation-v1.1`](https://github.com/brainlife/app-cortex-tissue-mapping/tree/sum-template-generation-v1.1) | [doi:10.25663/brainlife.app.774](https://doi.org/10.25663/brainlife.app.774) | current |
 | Convert surface datatypes to cortexmap datatype | — | [`convert-surface-datatype`](https://github.com/brainlife/app-cortex-tissue-mapping/tree/convert-surface-datatype) | [doi:10.25663/brainlife.app.576](https://doi.org/10.25663/brainlife.app.576) | current |
 
-## 🚀 Running the App
+## Running the App
 
-### ☁️ On brainlife.io
+### On brainlife.io
 
 Pick the App that matches your measure from the tables above and open its DOI link. A typical diffusion workflow is:
 
@@ -126,7 +126,7 @@ Pick the App that matches your measure from the tables above and open its DOI li
 
 Each App archives a `neuro/cortexmap` dataset to your project; the mapping Apps also archive a `raw` dataset of intermediate files for quality assurance or figures.
 
-### 💻 Locally
+### Locally
 
 You need [Singularity/Apptainer](https://apptainer.org/), [`jq`](https://jqlang.github.io/jq/) and a [FreeSurfer license](https://surfer.nmr.mgh.harvard.edu/registration.html). The Apps run in the `brainlife/connectome_workbench` (1.4.2b or 1.5.0) container; the SNR step runs in `brainlife/fsl:5.0.9`.
 
@@ -164,7 +164,7 @@ You need [Singularity/Apptainer](https://apptainer.org/), [`jq`](https://jqlang.
    ./main
    ```
 
-### 🧪 Sample data
+### Sample data
 
 Download a DWI, a FreeSurfer run and tensor measures from brainlife.io with the [brainlife CLI](https://github.com/brainlife/cli):
 
@@ -177,7 +177,7 @@ bl dataset download --id 5967bffa9b45c212bbec8958 && mv 5967bffa9b45c212bbec8958
 bl dataset download --id 5c5d35e3f5d2a10052842848 && mv 5c5d35e3f5d2a10052842848 input/tensor
 ```
 
-## 📦 Outputs
+## Outputs
 
 ```text
 cortexmap/cortexmap/
@@ -190,7 +190,7 @@ raw/         intermediate files (SNR, ribbon, c_ras.mat, metric/) for quality as
 
 The surfaces and measures can be viewed with the Connectome Workbench viewer (`wb_view`). Smoothed maps are added next to the originals as `<name>.smooth_<kernel>.func.gii`.
 
-## 🩺 Troubleshooting
+## Troubleshooting
 
 - **`Please set FREESURFER_LICENSE in .bashrc`**: export the contents of your FreeSurfer license as `FREESURFER_LICENSE` before running `main`.
 - **`lh snr failed. check logs`** (or `rh`): the b0 SNR image could not be mapped to the surface. Check that the DWI has several b0 volumes and is aligned with the FreeSurfer anatomy, or use a *No SNR masking* variant.
@@ -198,7 +198,7 @@ The surfaces and measures can be viewed with the Connectome Workbench viewer (`w
 - **`something went wrong. check derivatives and logs`** (resample Apps): the cortexmap must contain native midthickness surfaces and come from the FreeSurfer run you provide; for the fsaverage resample App, the `fsaverage` choice must match the mesh the cortexmap was built on.
 - **Endpoints do not map completely** (endpoint Apps): set `projfrac_min` to a negative value such as `-1`.
 
-## 📚 Citing
+## Citing
 
 > [!TIP]
 > If you use this App in your work, please cite the App, the software it builds on and brainlife.io (below). GitHub's **Cite this repository** button gives the App citation in APA and BibTeX.
@@ -216,13 +216,13 @@ If you use these Apps, please cite the methods they implement and brainlife.io:
 - Hayashi S, Caron BA, Heinsfeld AS, et al. brainlife.io: a decentralized and open-source cloud platform to support neuroscience research. *Nature Methods* 21:809–813 (2024). [doi:10.1038/s41592-024-02237-2](https://doi.org/10.1038/s41592-024-02237-2)
 - Avesani P, McPherson B, Hayashi S, et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. *Scientific Data* 6:69 (2019). [doi:10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
 
-## 👥 Authors
+## Authors
 
 - Brad Caron
 
 **Contributors:** Soichi Hayashi, Franco Pestilli
 
-## 💰 Funding
+## Funding
 
 [![Wellcome-226486/Z/22/Z](https://img.shields.io/badge/Wellcome-226486%2FZ%2F22%2FZ-purple.svg)](https://wellcome.org/)
 [![NIH-NINDS-U24NS140384](https://img.shields.io/badge/NIH_NINDS-U24NS140384-green.svg)](https://reporter.nih.gov/project-details/11261037)
@@ -241,6 +241,6 @@ If you use these Apps, please cite the methods they implement and brainlife.io:
 
 <sub>brainlife.io is publicly funded, and acknowledging that support helps keep it running. This App was developed with support from Wellcome, the U.S. National Institutes of Health (including the BRAIN Initiative BRAIN CONNECTS program: The Axonal Projectome EXchange, U24NS140384, and the Center for Mesoscale Connectomics, UM1NS132207) and the U.S. National Science Foundation.</sub>
 
-## ⚖️ License
+## License
 
 [MIT](LICENSE). Connectome Workbench, FreeSurfer and FSL are distributed under their own licenses.
