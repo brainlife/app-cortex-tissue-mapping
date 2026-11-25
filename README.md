@@ -11,7 +11,7 @@ The code for this app was adapted from HCP's PostFreesurfer pipeline (https://gi
 
 ### Contributors
 - Soichi Hayashi (hayashi@iu.edu)
-- Franco Pestilli (franpest@indiana.edu)
+- Franco Pestilli ([@francopestilli](https://github.com/francopestilli))
 
 ### Funding
 
