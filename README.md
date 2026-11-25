@@ -9,7 +9,7 @@ This app will take surf and func data from cortexmap datatype and resample to a 
 
 ### Contributors
 - Soichi Hayashi (hayashi@iu.edu)
-- Franco Pestilli (franpest@indiana.edu)
+- Franco Pestilli ([@francopestilli](https://github.com/francopestilli))
 
 ### Funding
 
