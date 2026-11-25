@@ -2,6 +2,35 @@
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.379-blue.svg)](https://doi.org/10.25663/brainlife.app.379)
 
 # app-cortex-tissue-mapping
+
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+**Resamples the surfaces, measures and labels of an fsaverage-space cortexmap to the standard fs_LR 32k or 164k mesh with Connectome Workbench, for group averaging of surface maps.**
+
+Uses the sphere.reg of a bundled fsaverage subject (chosen with the fsaverage parameter) and the fs_LR-deformed-to-fsaverage standard spheres to resample every surface, metric and label file of the cortexmap. Use it for cortexmaps produced on an fsaverage surface (e.g. by the fsaverage endpoint-mapping App); it needs no subject FreeSurfer input. The fsaverage choice must match the mesh the cortexmap was built on.
+
+Run it on brainlife.io: [https://doi.org/10.25663/brainlife.app.802](https://doi.org/10.25663/brainlife.app.802)
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `cortexmap` | `neuro/cortexmap` (fsaverage) | yes | cortexmap built on an fsaverage surface (tag fsaverage); must include lh/rh.midthickness.fsaverage.surf.gii. |
+
+| Output | Datatype | Description |
+|---|---|---|
+| `cortexmap` | `neuro/cortexmap` | cortexmap with all surfaces, metrics and labels resampled to the chosen fs_LR standard mesh (tagged with the mesh size). |
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `resample_surf` | enum | `164k` | Standard fs_LR mesh density to resample to: 164k or 32k vertices per hemisphere. Options: `164k`, `32k`. |
+| `fsaverage` | enum |  | Which bundled fsaverage subject (fsaverage to fsaverage6) the input cortexmap was built on; its sphere.reg is used for resampling. Options: `fsaverage`, `fsaverage2`, `fsaverage3`, `fsaverage4`, `fsaverage5`, `fsaverage6`. |
+
+Runtime: container `brainlife/connectome_workbench:1.4.2b`; 8 CPUs; 20 GB memory; 1 h walltime; needs `FREESURFER_LICENSE`.
+
+Please cite:
+- Fukutomi H, et al. Neurite imaging reveals microstructural variations in human cerebral cortical gray matter. NeuroImage (2018). [doi:10.1016/j.neuroimage.2018.02.017](https://doi.org/10.1016/j.neuroimage.2018.02.017)
+
+<!-- brainlife-app:end -->
+
 This app will map volumated measure files (i.e. tensor, NODDI, myelin) to the cortical surface following procedures outlined in Fukutomi et al (2018; 10.1016/j.neuroimage.2018.02.017) using Connectome Workbench and the minimal preprocessing pipeline of the Human Connectome Project (2013; 10.1016/j.neuroimage.2013.04.127). Specifically, this app generates a mid-thickness surface (i.e. the mid-distance spline between the cortical and pial surfaces) and maps measures to this surface. This surface can be in native space, or, if a warp to a template space is provided, template space. This app needs for inputs: DWI, measure volume files (i.e. tensor, NODDI), freesurfer, and an optional brainmask. If a template surface is requested, the user must input a warp datatype with the warp and inverse warp niftis. See "FSL Anat" for an app that generates these warp files. This app outputs a cortexmap datatype, which contains three folders: func (contains mapped measures to surface), surf (contains all surface derivatives generated, including midthickness surface), and label (contains aparc.a2009s.aseg label niftis). The output surfaces and functional measures can be viewed using the Connectome Workbench viewer.
 
 The code for this app was adapted from HCP's PostFreesurfer pipeline (https://github.com/Washington-University/HCPpipelines/blob/master/PostFreeSurfer/scripts/FreeSurfer2CaretConvertAndRegisterNonlinear.sh) and RIKEN - Brain Connectomics Imaging Laboratory's NoddiSurfaceMapping repository (https://github.com/RIKEN-BCIL/NoddiSurfaceMapping) for use on brainlife.io.
