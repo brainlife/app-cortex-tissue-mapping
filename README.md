@@ -9,7 +9,7 @@ This app will create the structural derivatives for the cortexmap datatype, incl
 
 ### Contributors
 - Soichi Hayashi (hayashi@iu.edu)
-- Franco Pestilli (franpest@indiana.edu)
+- Franco Pestilli ([@francopestilli](https://github.com/francopestilli))
 
 ### Funding
 
